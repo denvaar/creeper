@@ -1,9 +1,24 @@
 <html>
   <head>
     <title>Video Streaming Demonstration</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <h1>Video Streaming Demonstration</h1>
-    <img id="bg" src="{{ url_for('video_feed') }}">
+    <div>
+      <button onclick="toggleVideo(event)">Record</button>
+    </div>
+    <img src="{{ url_for('video_feed') }}">
   </body>
+  <script>
+    function toggleVideo(e) {
+      var url = e.target.innerHTML === "Record" ? "{{ url_for('record') }}" : "{{ url_for('stop_recording') }}";
+      e.target.innerHTML = e.target.innerHTML === "Record" ? "Stop Recording" : "Record";
+      axios.get(url)
+        .then(function (response) {
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    };
+  </script>
 </html>
