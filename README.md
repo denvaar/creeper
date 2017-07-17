@@ -8,8 +8,6 @@ Makeshift Raspberry Pi Security Camera System
 :---------------------------:|:-------------------------:
 <img width="430" alt="creeper" src="https://user-images.githubusercontent.com/10538978/28256157-bc63a8c6-6a7c-11e7-909a-0dfbb285d66e.png">  |  <img width="330" alt="creeper" src="https://user-images.githubusercontent.com/10538978/28256176-f6d24d82-6a7c-11e7-9550-a65b17f3cbd6.jpg">
 
-More details about this project can be found [here](https://denverpsmith.com/) on my blog.
-
 ## Features
 
 - Captures video and detects motion using OpenCV library.
