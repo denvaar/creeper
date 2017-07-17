@@ -1,7 +1,12 @@
 # creeper
 Makeshift Raspberry Pi Security Camera System
 
-This also works with a Macbook camera, and probably anything with a camera device.
+*This also works with a Macbook camera, and probably any machine with a camera device.*
+
+
+ Streaming & motion detection| SMS text notifications
+:---------------------------:|:-------------------------:
+<img width="430" alt="creeper" src="https://user-images.githubusercontent.com/10538978/28256157-bc63a8c6-6a7c-11e7-909a-0dfbb285d66e.png">  |  <img width="330" alt="creeper" src="https://user-images.githubusercontent.com/10538978/28256176-f6d24d82-6a7c-11e7-9550-a65b17f3cbd6.jpg">
 
 More details about this project can be found [here](https://denverpsmith.com/) on my blog.
 
@@ -21,12 +26,12 @@ Install [ffmpeg](https://ffmpeg.org/) and make sure it's in your `PATH`.
 Install Python3
 
 Install python dependencies (preferably inside a virtual environment.) Packages can be found in `requirements.txt`:
-```
+```bash
 pip install -r requirements.txt
 ```
 
 Set the following environment variables:
-```
+```bash
 export EMAIL=youremail@gmail.com
 export EMAIL_PASSWORD=youremailpassword
 export SMS_PHONE_NUMBER=1111111111@mms.att.net
