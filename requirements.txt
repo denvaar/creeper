@@ -1,5 +1,7 @@
 click==6.7
 Flask==0.12.2
+gevent==1.2.2
+greenlet==0.4.12
 imutils==0.4.3
 itsdangerous==0.24
 Jinja2==2.9.6

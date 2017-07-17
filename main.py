@@ -63,5 +63,5 @@ def security_system_app():
 if __name__ == '__main__':
     """Start a server that can handle async streaming"""
     security_system_app()
-    server = WSGIServer(('', 5000), app)
+    server = WSGIServer(('192.168.1.184', 5000), app)
     server.serve_forever()

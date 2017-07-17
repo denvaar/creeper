@@ -3,6 +3,8 @@ Makeshift Raspberry Pi Security Camera System
 
 This also works with a Macbook camera, and probably anything with a camera device.
 
+More details about this project can be found [here](https://denverpsmith.com/) on my blog.
+
 ## Features
 
 - Captures video and detects motion using OpenCV library.
@@ -16,7 +18,9 @@ This also works with a Macbook camera, and probably anything with a camera devic
 
 Install [ffmpeg](https://ffmpeg.org/) and make sure it's in your `PATH`.
 
-Install python dependencies. Packages can be found in `requirements.txt`:
+Install Python3
+
+Install python dependencies (preferably inside a virtual environment.) Packages can be found in `requirements.txt`:
 ```
 pip install -r requirements.txt
 ```
@@ -31,6 +35,11 @@ export OUTPUT_FILE_PREFIX=motion
 ```
 
 `SMS_PHONE_NUMBER` should use the appropriate SMS gateway address for your carrier.
+
+Start the server:
+```bash
+python main.py
+```
 
 ## License
 
