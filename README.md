@@ -1,16 +1,37 @@
 # creeper
 Makeshift Raspberry Pi Security Camera System
 
+This also works with a Macbook camera, and probably anything with a camera device.
+
 ## Features
 
 - Captures video and detects motion using OpenCV library.
 - Streams video to web page via motion JPEG.
-- Saves JPEG images when motion is detected.
-- Sends a text message with images when motion is detected.
+- Allows clients to control camera from web page.
+- Allows multiple clients to view live stream.
+- Encodes and saves video files when motion is detected.
+- Sends a text message with video attachment when motion is detected.
 
-## Requirements
+## Setup
 
-- Python 3
-- opencv2
-- imutils
-- flask
+Install [ffmpeg](https://ffmpeg.org/) and make sure it's in your `PATH`.
+
+Install python dependencies. Packages can be found in `requirements.txt`:
+```
+pip install -r requirements.txt
+```
+
+Set the following environment variables:
+```
+export EMAIL=youremail@gmail.com
+export EMAIL_PASSWORD=youremailpassword
+export SMS_PHONE_NUMBER=1111111111@mms.att.net
+# this can be whatever you like:
+export OUTPUT_FILE_PREFIX=motion
+```
+
+`SMS_PHONE_NUMBER` should use the appropriate SMS gateway address for your carrier.
+
+## License
+
+MIT

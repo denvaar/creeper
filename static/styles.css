@@ -1,0 +1,33 @@
+body {
+  background: #292929;
+  color: #969696;
+  font-family: Trebuchet MS;
+}
+
+.record-button {
+  background: #e25f55;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  width: 150px;
+}
+
+.button {
+  width: 150px;
+  background: #046590;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+}
+
+.p1 {
+  padding: 1rem;
+}
+
+.center {
+  text-align: center;
+}
+
+img {
+  width: 100%;
+}

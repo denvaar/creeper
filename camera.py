@@ -1,30 +1,38 @@
 import cv2
-import os
 import imutils
+import multiprocessing
 import time
+
 from datetime import datetime, timedelta
-from threading import Thread
+
+from utils import VideoWriter
 
 
 class VideoCamera(object):
+    """Capture and process frame by frame data from camera device 0"""
+
     def __init__(self):
         # capture from device 0
         self.video = None
         self.recording = False
         self.file_output = None
-        # self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        self.fourcc = cv2.VideoWriter_fourcc('m','p','4','v')
+        self.movement_detected = False
+        self.video_writer = None
 
     def initialize(self):
+        """Set up initial variables for camera"""
         # capture from device 0
         self.video = cv2.VideoCapture(0)
         self.initial_frame = None
         time.sleep(1)
         self.last_movement = datetime.now()
+        self.video_writer = VideoWriter()
 
     def release(self):
+        """Try to release camera handle"""
+
         try:
-            self.video.release()
+            self.recording.release()
         except AttributeError:
             pass
 
@@ -32,10 +40,21 @@ class VideoCamera(object):
         self.release()
 
     def record(self, status):
+        """Manually set recording status"""
+
         self.recording = status
 
+    def encode_jpeg(self, frame):
+        """Encode raw image data to JPEG"""
+        return cv2.imencode('.jpg', frame)[1]
+
     def get_frame(self):
-        success, image = self.video.read()
+        """Process single frame of data from camera device"""
+
+        self.movement_detected = False
+        current_time = datetime.now()
+
+        _, image = self.video.read()
 
         frame = imutils.resize(image, width=500)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -44,7 +63,9 @@ class VideoCamera(object):
         if self.initial_frame is None:
             self.initial_frame = gray
 
-        if datetime.now() > self.last_movement + timedelta(minutes=1):
+        # make a new initial frame every minute if no motion has been detected.
+        # (this is a way to combat subtle changes that can happen over time)
+        if current_time > self.last_movement + timedelta(minutes=1):
             print('{} new initial frame issued'.format(datetime.now()))
             self.initial_frame = gray
             self.last_movement = datetime.now()
@@ -56,24 +77,32 @@ class VideoCamera(object):
         (_, contours, _) = cv2.findContours(dilated_threshold.copy(),
                                          cv2.RETR_EXTERNAL,
                                          cv2.CHAIN_APPROX_SIMPLE)
+
         for contour in contours:
-            if cv2.contourArea(contour) >= 500:
-                current_time = datetime.now()
+            contour_area = cv2.contourArea(contour)
+
+            if contour_area >= 500:
                 self.last_movement = current_time
+                self.movement_detected = True
 
                 (x, y, w, h) = cv2.boundingRect(contour)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 1)
 
-                if current_time.second % 10 == 0:
-                    cv2.imwrite(
-                        'snapshot-{}.jpg'.format(
-                            current_time.strftime('%Y_%m_%d-%H_%S')),
-                        frame)
+        jpeg = None
 
-        if self.recording:
-            cv2.putText(frame, "Recording", (10, 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+        if self.movement_detected or self.recording:
+            cv2.putText(frame,
+                "Recording {}".format(
+                    current_time.strftime('%Y/%m/%d %H:%M:%S')),
+                (10, 20),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255),
+                1
+            )
+            jpeg = self.encode_jpeg(frame)
+            self.video_writer.start_recording(jpeg.tostring())
 
-        # encode raw images to motion JPEG
-        ret, jpeg = cv2.imencode('.jpg', frame)
+        else:
+            self.video_writer.finish_recording()
+            jpeg = self.encode_jpeg(frame)
+
         return jpeg.tobytes()

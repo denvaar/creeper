@@ -2,17 +2,32 @@
   <head>
     <title>Video Streaming Demonstration</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
   </head>
   <body>
-    <div>
-      <button onclick="toggleVideo(event)">Record</button>
+    <h1 class="center">Live Video Stream</h1>
+    <div class="center">
+      <img src="{{ url_for('video_feed') }}">
     </div>
-    <img src="{{ url_for('video_feed') }}">
+    <div class="center p1">
+      <button class="record-button p1" onclick="toggleVideo(event)">Record</button>
+      <button class="button p1" onclick="resetVideo(event)">Reset</button>
+    </div>
   </body>
   <script>
     function toggleVideo(e) {
       var url = e.target.innerHTML === "Record" ? "{{ url_for('record') }}" : "{{ url_for('stop_recording') }}";
       e.target.innerHTML = e.target.innerHTML === "Record" ? "Stop Recording" : "Record";
+      axios.get(url)
+        .then(function (response) {
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    };
+
+    function resetVideo(e) {
+      var url = "{{ url_for('reset') }}";
       axios.get(url)
         .then(function (response) {
         })
