@@ -3,6 +3,8 @@ Makeshift Raspberry Pi Security Camera System
 
 *This also works with a Macbook camera, and probably any machine with a camera device.*
 
+More information on my [blog post](https://denverpsmith.com/posts/makeshift-security-camera).
+
 
  Streaming & motion detection| SMS text notifications
 :---------------------------:|:-------------------------:
